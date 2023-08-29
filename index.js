@@ -2,14 +2,14 @@ import http from 'http';
 import fs from 'fs/promises';
 import { format } from 'date-fns';
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   if (req.url !== '/favicon.ico') {
     const currentTime = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
     const requestUrl = req.url;
 
     const logMessage = `${currentTime} - ${requestUrl}\n`;
-    console.log(logMessage);
-    fs.appendFile('requests.txt', logMessage, err => {
+
+    await fs.appendFile('requests.txt', logMessage, err => {
       if (err) {
         console.error('Error writing to file:', err);
       }
